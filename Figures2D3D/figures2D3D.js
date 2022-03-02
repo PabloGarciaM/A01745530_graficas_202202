@@ -46,7 +46,8 @@ function main()
     let square = createSquare(gl);
     let triangle = createTriangle(gl);
     let diamond = createDiamond(gl);
-    let pacCircle = createPacCircle(gl);
+    let upCircle = createUPCircle(gl);
+    let downCircle = createDownCircle(gl);
     //Square
     mat4.identity(modelViewMatrix);
     
@@ -70,13 +71,23 @@ function main()
     draw(gl,shaderProgram, diamond);
 
     
-    //3/4 Circle
+    //Upper Circle
     mat4.identity(modelViewMatrix)
 
     mat4.translate(modelViewMatrix,modelViewMatrix, [1.2,-0.7,-3.333])
 
     bindShaderAttributes(gl, shaderProgram);
-    draw(gl,shaderProgram, pacCircle);
+    draw(gl,shaderProgram, upCircle);
+
+    //Down Circle
+    mat4.identity(modelViewMatrix)
+
+    mat4.translate(modelViewMatrix,modelViewMatrix, [1.2,-0.7,-3.333])
+
+    bindShaderAttributes(gl, shaderProgram);
+    draw(gl,shaderProgram, downCircle);
+
+
     
 }
 
@@ -226,23 +237,47 @@ function createDiamond(gl){
 
     return diamond;
 }
-//Función que crea los datos del vertice para dibujar un circulo con un triangulo
-function createPacCircle(gl){
-    let vertexBuffer;
-    vertexBuffer = gl.createBuffer();
+//Función que crea los datos del vertice para dibujar un la parte superior con un pequeños triangulo
+function createUPCircle(gl){
+    let vertexBuffer = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
-    let verts = [
-        .5,  .5,  0.0,
-        -.5, .5,  0.0,
-        -.5, -.5,  0.0,
-        .5,  -.5,  0.0,
-    ];
+    let verts = [];
+    let radio = 0.5;
+
+    for(var angle = 45; angle<= 180;  angle++){
+        verts.push(radio * Math.cos(angle/(180/Math.PI)))
+        verts.push(radio * Math.sin(angle/(180/Math.PI)))
+        verts.push(0)
+    }
+    
 
     gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(verts), gl.STATIC_DRAW);
 
-    let pacCircle = {buffer:vertexBuffer, vertSize:3, nVerts:4, primtype:gl.TRIANGLE_STRIP};
+    let downCircle = {buffer:vertexBuffer, vertSize:3, nVerts:315, primtype:gl.TRIANGLE_FAN};
 
-    return pacCircle;
+    return downCircle;
+}
+
+//Función que crea los datos del vertice para dibujar un la parte inferior con un pequeños triangulo
+function createDownCircle(gl){
+    let vertexBuffer;
+    vertexBuffer = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
+    let radio = 0.5;
+    let verts = [];
+
+    for(var angle = 180; angle< 315;  angle++){
+        verts.push(radio *Math.cos(angle/(180/Math.PI)));
+        verts.push(radio *Math.sin(angle/(180/Math.PI)));
+        verts.push(0);
+    }
+
+
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(verts), gl.STATIC_DRAW);
+
+    let downCircle = {buffer:vertexBuffer, vertSize:3, nVerts:315, primtype:gl.TRIANGLE_FAN};
+
+    return downCircle;
 }
 
 
