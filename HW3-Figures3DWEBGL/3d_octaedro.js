@@ -45,7 +45,7 @@ function main()
     initViewport(gl, canvas);
     initGL(canvas);
     
-    let octaedro = createOctaedro(gl, [-2 , 0, -2], [1, 1.0, 0.2]);
+    let octaedro = createOctaedro(gl, [0 , 0, 0], [1, 1.0, 0.2]);
     //let cube2 = createOctaedro(gl, [-2, 0, -2], [-1, 1, 0]);
     
     const shaderProgram = shaderUtils.initShader(gl, vertexShaderSource, fragmentShaderSource);
@@ -143,7 +143,7 @@ function createOctaedro(gl, translation, rotationAxis)
         [0.0, 0.0, 1.0, 1.0], // Top face
         [1.0, 0.5, 0.0, 1.0], // Bottom face
         [1.0, 1.0, 1.0, 1.0], // Right face
-        [0.0, 1.0, 0.0, 1.0],  // Left face
+        [1.0, 1.0, 0.0, 1.0],  // Left face
         [1.0, 0.0, 1.0, 1.0],
         [0.0, 5.0, 1.0, 1.0]
     ];
