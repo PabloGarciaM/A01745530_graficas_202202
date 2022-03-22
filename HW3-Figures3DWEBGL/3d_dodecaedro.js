@@ -45,13 +45,12 @@ function main()
     initViewport(gl, canvas);
     initGL(canvas);
     
-    let cube = createCube(gl, [2 , 0, -2], [0, 0, 1]);
-    let cube2 = createCube(gl, [-2, 0, -2], [-1, 1, 0]);
+    let dodecaedro = createdodecaedro(gl, [0 , 0, -2], [-0.4, 1.0, 0.1]);
     
     const shaderProgram = shaderUtils.initShader(gl, vertexShaderSource, fragmentShaderSource);
     bindShaderAttributes(gl, shaderProgram);
 
-    update(gl, shaderProgram, [cube, cube2]);
+    update(gl, shaderProgram, [dodecaedro]);
 }
 
 function initWebGL(canvas)
@@ -87,51 +86,169 @@ function initGL(canvas)
     mat4.translate(projectionMatrix, projectionMatrix, [0, 0, -5]);
 }
 
-// Create the vertex, color and index data for a multi-colored cube
-function createCube(gl, translation, rotationAxis)
-{    
+// Create the vertex, color and index data for a multi-colored dodecaedro
+function createdodecaedro(gl, translation, rotationAxis) {
     // Vertex Data
     let vertexBuffer;
     vertexBuffer = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
 
     let verts = [
-       // Front face
-       -1.0, -1.0,  1.0,
-        1.0, -1.0,  1.0,
-        1.0,  1.0,  1.0,
-       -1.0,  1.0,  1.0,
+        -1,  1,  1,
+	    0,  0.61803,  1.61803,
+	    1,  1,  1,
+	   
+	   -1,  1,  1,	   
+	    1,  1,  1,
+	    0.61803,  1.61803,  0,
+	    
+	   -1,  1,  1,
+	    0.61803,  1.61803,  0,   
+	   -0.61803,  1.61803,  0,
+		 
+		 
+	    1,  1,  1,   
+	    1.61803,  0,  0.61803, 
+	    1.61803,  0, -0.61803,
+   
+	    1,  1,  1,   
+	    1.61803,  0, -0.61803,
+	    1,  1, -1,
+		 
+	    1,  1,  1,   
+	    1,  1,  -1,   
+        0.61803,  1.61803,  0,
+     	    
+     	         
+        1.61803,  0, -0.61803,
+        1, -1, -1,
+        0, -0.61803, -1.61803,
+        
+        1.61803,  0, -0.61803,
+        0, -0.61803, -1.61803,
+        0,  0.61803, -1.61803,
 
-       // Back face
-       -1.0, -1.0, -1.0,
-       -1.0,  1.0, -1.0,
-        1.0,  1.0, -1.0,
-        1.0, -1.0, -1.0,
+        1.61803,  0, -0.61803,
+        0,  0.61803, -1.61803,
+        1,  1, -1,
+        
 
-       // Top face
-       -1.0,  1.0, -1.0,
-       -1.0,  1.0,  1.0,
-        1.0,  1.0,  1.0,
-        1.0,  1.0, -1.0,
+        0, -0.61803, -1.61803,
+        -1, -1, -1,
+        -1.61803,  0, -0.61803,
+        
+        0, -0.61803, -1.61803,
+        -1.61803,  0, -0.61803,
+        -1,  1, -1,
+                    
+        0, -0.61803, -1.61803,
+        -1,  1, -1,
+        0,  0.61803, -1.61803,
+        
+        
+        -1, -1, -1,
+        -0.61803, -1.61803,  0,
+        -1, -1,  1,    
+        
+        -1, -1, -1,
+        -1, -1,  1, 
+        -1.61803,  0,  0.61803,      
+        
+        -1, -1, -1,       
+        -1.61803,  0,  0.61803,       
+        -1.61803,  0, -0.61803,
+        
+        
+        -1,  1, -1,
+        -1.61803,  0, -0.61803,
+        -1.61803,  0,  0.61803,
+        
+        -1,  1, -1,
+        -1.61803,  0,  0.61803,
+        -1,  1,  1,
 
-       // Bottom face
-       -1.0, -1.0, -1.0,
-        1.0, -1.0, -1.0,
-        1.0, -1.0,  1.0,
-       -1.0, -1.0,  1.0,
+        -1,  1, -1,
+        -1,  1,  1,
+        -0.61803,  1.61803,  0,
 
-       // Right face
-        1.0, -1.0, -1.0,
-        1.0,  1.0, -1.0,
-        1.0,  1.0,  1.0,
-        1.0, -1.0,  1.0,
 
-       // Left face
-       -1.0, -1.0, -1.0,
-       -1.0, -1.0,  1.0,
-       -1.0,  1.0,  1.0,
-       -1.0,  1.0, -1.0
-       ];
+        -1.61803,  0,  0.61803,
+        -1, -1,  1, 
+        0, -0.61803,  1.61803,
+
+        -1.61803,  0,  0.61803,
+        0, -0.61803,  1.61803,
+        0,  0.61803,  1.61803,
+
+        -1.61803,  0,  0.61803,
+        0,  0.61803,  1.61803,
+        -1,  1,  1,
+
+
+        1, -1, -1,
+        0.61803, -1.61803,  0,
+        -0.61803, -1.61803,  0,
+
+        1, -1, -1,
+        -0.61803, -1.61803,  0,
+        -1, -1, -1,
+
+        1, -1, -1,
+        -1, -1, -1,
+        0, -0.61803, -1.61803,
+
+
+        0,  0.61803,  1.61803,
+        0, -0.61803,  1.61803,
+        1, -1,  1,
+
+        0,  0.61803,  1.61803,
+        1, -1,  1,
+        1.61803,  0,  0.61803,
+
+        0,  0.61803,  1.61803,
+        1.61803,  0,  0.61803,
+        1,  1,  1,
+        
+        
+        1.61803,  0,  0.61803,       
+        1, -1,  1,   
+        0.61803, -1.61803,  0,
+            
+	    1.61803,  0,  0.61803,
+	    0.61803, -1.61803,  0,
+	    1, -1, -1,       
+            
+ 	    1.61803,  0,  0.61803,
+        1, -1, -1,
+        1.61803,  0, -0.61803,
+        
+        
+        1,  1, -1,
+        0,  0.61803, -1.61803,
+        -1,  1, -1,
+        
+        1,  1, -1,
+        -1,  1, -1,
+        -0.61803,  1.61803,  0,
+
+        1,  1, -1,
+        -0.61803,  1.61803,  0,
+        0.61803,  1.61803,  0,
+        
+        
+        -1, -1,  1, 
+        -0.61803, -1.61803,  0,
+        0.61803, -1.61803,  0, 
+
+        -1, -1,  1, 
+  	    0.61803, -1.61803,  0,
+        1, -1,  1,
+
+        -1, -1,  1,          
+        1, -1,  1,
+        0, -0.61803,  1.61803
+    ];
 
     gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(verts), gl.STATIC_DRAW);
 
@@ -140,61 +257,76 @@ function createCube(gl, translation, rotationAxis)
     gl.bindBuffer(gl.ARRAY_BUFFER, colorBuffer);
 
     let faceColors = [
-        [1.0, 0.0, 0.0, 1.0], // Front face
-        [0.0, 1.0, 0.0, 1.0], // Back face
-        [0.0, 0.0, 1.0, 1.0], // Top face
-        [1.0, 1.0, 0.0, 1.0], // Bottom face
-        [1.0, 0.0, 1.0, 1.0], // Right face
-        [0.0, 1.0, 1.0, 1.0]  // Left face
+        [0.5, 0.0, 0.0, 1.0],
+        [0.5, 1.0, 0.0, 1.0],
+        [1.0, 1.0, 1.0, 1.0],
+        [0.0, 0.0, 0.0, 1.0],
+        [0.0, 1.0, 0.5, 1.0],
+        [0.0, 0.0, 1.0, 1.0],
+        [1.0, 1.0, 0.0, 1.0],
+        [1.0, 0.0, 1.0, 1.0],
+        [0.0, 1.0, 1.0, 1.0],
+        [1.0, 0.0, 1.0, 1.0],
+        [0.0, 1.0, 1.0, 1.0],
+        [1.0, 0.0, 0.0, 1.0],
+        [0.0, 1.0, 0.0, 1.0],
+        [0.0, 1.0, 1.0, 1.0],
+        
+        
     ];
 
-    // Each vertex must have the color information, that is why the same color is concatenated 4 times, one for each vertex of the cube's face.
+    // Each vertex must have the color information, that is why the same color is concatenated 4 times, one for each vertex of the dodecaedro's face.
     let vertexColors = [];
     // for (const color of faceColors) 
     // {
     //     for (let j=0; j < 4; j++)
     //         vertexColors.push(...color);
     // }
-    faceColors.forEach(color =>{
-        for (let j=0; j < 4; j++)
+    faceColors.forEach(color => {
+        for (let j = 0; j < 9; j++)
             vertexColors.push(...color);
     });
 
     gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertexColors), gl.STATIC_DRAW);
 
     // Index data (defines the triangles to be drawn).
-    let cubeIndexBuffer = gl.createBuffer();
-    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, cubeIndexBuffer);
+    let dodecaedroIndexBuffer = gl.createBuffer();
+    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, dodecaedroIndexBuffer);
 
-    let cubeIndices = [
-        0, 1, 2,      0, 2, 3,    // Front face
-        4, 5, 6,      4, 6, 7,    // Back face
-        8, 9, 10,     8, 10, 11,  // Top face
-        12, 13, 14,   12, 14, 15, // Bottom face
-        16, 17, 18,   16, 18, 19, // Right face
-        20, 21, 22,   20, 22, 23  // Left face
+    let dodecaedroIndices = [
+        0,  1,  2,     3,  4,  5,    6,  7,  8, 
+        9, 10, 11,    12, 13, 14,   15, 16, 17, 
+       18, 19, 20,    21, 22, 23,   24, 25, 26, 
+       27, 28, 29,    30, 31, 32,   33, 34, 35,
+       36, 37, 38,    39, 40, 41,   42, 43, 44,
+       45, 46, 47,    48, 49, 50,   51, 52, 53,
+       54, 55, 56,    57, 58, 59,   60, 61, 62,
+       63, 64, 65,    66, 67, 68,   69, 70, 71,
+       72, 73, 74,    75, 76, 77,   78, 79, 80,
+       81, 82, 83,    84, 85, 86,   87, 88, 89,
+       90, 91, 92,    93, 94, 95,   96, 97, 98,
+       99,100,101,   102,103,104,  105, 106, 107 
     ];
 
     // gl.ELEMENT_ARRAY_BUFFER: Buffer used for element indices.
     // Uint16Array: Array of 16-bit unsigned integers.
-    gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(cubeIndices), gl.STATIC_DRAW);
-    
-    let cube = {
-            buffer: vertexBuffer, colorBuffer:colorBuffer, indices:cubeIndexBuffer,
-            vertSize:3, nVerts:24, colorSize:4, nColors: 24, nIndices:36,
-            primtype:gl.TRIANGLES, modelViewMatrix: mat4.create(), currentTime : Date.now()
-        };
+    gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(dodecaedroIndices), gl.STATIC_DRAW);
 
-    mat4.translate(cube.modelViewMatrix, cube.modelViewMatrix, translation);
+    let dodecaedro = {
+        buffer: vertexBuffer, colorBuffer: colorBuffer, indices: dodecaedroIndexBuffer,
+        vertSize: 3, nVerts: 318, colorSize: 4, nColors: 24, nIndices: 108,
+        primtype: gl.TRIANGLES, modelViewMatrix: mat4.create(), currentTime: Date.now()
+    };
 
-    cube.update = function()
-    {
+    mat4.translate(dodecaedro.modelViewMatrix, dodecaedro.modelViewMatrix, translation);
+
+    dodecaedro.update = function () {
         let now = Date.now();
         let deltat = now - this.currentTime;
         this.currentTime = now;
         let fract = deltat / duration;
         let angle = Math.PI * 2 * fract;
-    
+
         // Rotates a mat4 by the given angle
         // mat4 out the receiving matrix
         // mat4 a the matrix to rotate
@@ -202,8 +334,8 @@ function createCube(gl, translation, rotationAxis)
         // vec3 axis the axis to rotate around
         mat4.rotate(this.modelViewMatrix, this.modelViewMatrix, angle, rotationAxis);
     };
-    
-    return cube;
+
+    return dodecaedro;
 }
 
 function bindShaderAttributes(gl, shaderProgram)
