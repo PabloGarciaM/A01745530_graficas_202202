@@ -10,7 +10,6 @@ let mat4 = glMatrix.mat4;
 
 let duration = 10000;
 
-const pyramiData=[];
 
 let vertexShaderSource = `#version 300 es
 in vec3 vertexPos;
@@ -38,6 +37,9 @@ let fragmentShaderSource = `#version 300 es
     fragColor = vColor;
 }
 `;
+//Array to save pyramid data
+const pyramiData=[];
+
 
 function createShader(glCtx, str, type)
 {
@@ -173,26 +175,26 @@ function sierpinskiPyramid(x0,y0,z0,x1,y1,z1,x2,y2,z2,depth){
 function createPyramid(gl, translation, rotationAxis, verts) 
 {
     
+    
     let vertexBuffer = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
     gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(verts), gl.STATIC_DRAW);
 
     //Random color data
-    let vertexColors = [[Math.random()+0.2, Math.random()+0.2, Math.random()+0.1, Math.random()+0.6]
-];
+    let vertexColors = [[Math.random()+0.2, Math.random(), Math.random()+0.1, Math.random()+0.6]];
     //Array where all colors are pushed
-    let randomColors = [];
+    let difColors = [];
 
     //Color given for each 3 vertices
     vertexColors.forEach(color =>{
         for (let j=0; j < 3; j++) 
-        randomColors.push(...color);
+        difColors.push(...color);
     });
 
 
     let colorBuffer = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, colorBuffer);
-    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(randomColors), gl.STATIC_DRAW);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(difColors), gl.STATIC_DRAW);
 
     
 
