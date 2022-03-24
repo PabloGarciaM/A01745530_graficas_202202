@@ -140,7 +140,7 @@ function draw(gl, objs)
     }
 }
 
-function sierpinskiPyramid(x0,y0,z0,x1,y1,z1,x2,y2,z2,depth){
+function drawMidTriangle(x0,y0,z0,x1,y1,z1,x2,y2,z2,depth){
 
     if(depth==0){
 
@@ -150,7 +150,7 @@ function sierpinskiPyramid(x0,y0,z0,x1,y1,z1,x2,y2,z2,depth){
         initViewport(glCtx, canvasContext);
         initGL(glCtx, canvasContext);
 
-        pyramiData.push(createPyramid(glCtx,[0,0,-4.8],[0,-2,0],[x0,y0,z0,x1,y1,z1,x2,y2,z2]))
+        pyramiData.push(pyramidForm(glCtx,[0,0,-4.8],[0,-2,0],[x0,y0,z0,x1,y1,z1,x2,y2,z2]))
         
     }else{
         //Usamos este metodo para encontrar el punto medio de los 3 lados de un triangulo y hacerlo de manera recursiva
@@ -161,11 +161,11 @@ function sierpinskiPyramid(x0,y0,z0,x1,y1,z1,x2,y2,z2,depth){
         let vx1 = (x0+x2)/2, vy1 = (y0+y2)/2, vz1 = (z0+z2)/2;
         //Mid Left
         let vx2 = (x1+x2)/2, vy2= (y1+y2)/2, vz2 = (z1+z2)/2;
-        //Recursión para obtener los triangulos triangulos
+        //Recursión para obtener los triangulos 
 
-        sierpinskiPyramid(x0,y0,z0,vx0,vy0,vz0,vx1,vy1,vz1,depth-1);
-        sierpinskiPyramid(vx0,vy0,vz0,x1,y1,z1,vx2,vy2,vz2,depth-1);
-        sierpinskiPyramid(vx1,vy1,vz1,vx2,vy2,vz2,x2,y2,z2,depth-1);
+        drawMidTriangle(x0,y0,z0,vx0,vy0,vz0,vx1,vy1,vz1,depth-1);
+        drawMidTriangle(vx0,vy0,vz0,x1,y1,z1,vx2,vy2,vz2,depth-1);
+        drawMidTriangle(vx1,vy1,vz1,vx2,vy2,vz2,x2,y2,z2,depth-1);
 
     }
 
@@ -174,17 +174,13 @@ function sierpinskiPyramid(x0,y0,z0,x1,y1,z1,x2,y2,z2,depth){
 const pyramiData=[];
 
 
-function createPyramid(gl, translation, rotationAxis, verts) 
+function pyramidForm(gl, translation, rotationAxis, vertices) 
 {
     
     let vertexBuffer = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
-    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(verts), gl.STATIC_DRAW);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);    
 
-    //Random color data
-    
-
-    let vertexColors = [];
     //Array where all colors are pushed
     let rColors = [];
     //Colores aleatorios para el trinagulo
@@ -196,12 +192,16 @@ function createPyramid(gl, translation, rotationAxis, verts)
         let tempColors =[a,b,c,o];
         rColors.push(tempColors)
     }
+
+    let vertexColors = [];
+
     //Para que cada triangulo tenga un color diferente
     rColors.forEach(color => {
         for (var i = 0; i < 3; i++) {
             vertexColors.push(...color)
         }
     })
+
     let colorBuffer = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, colorBuffer);
     gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertexColors), gl.STATIC_DRAW);
@@ -212,13 +212,13 @@ function createPyramid(gl, translation, rotationAxis, verts)
     let pyramidIndexBuffer = gl.createBuffer();
     gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, pyramidIndexBuffer);
 
-    let pyramidIndices = [0,1,2];
+    let pyIndex = [0,1,2];
 
-    gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(pyramidIndices), gl.STATIC_DRAW);
+    gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(pyIndex), gl.STATIC_DRAW);
     
     let pyramid = {
             buffer: vertexBuffer, colorBuffer:colorBuffer, indices:pyramidIndexBuffer,
-            vertSize:3, nVerts:verts.length/3, colorSize:4, nColors: vertexColors.length / 4, nIndices: pyramidIndices.length,
+            vertSize:3, nVerts:vertices.length/3, colorSize:4, nColors: vertexColors.length / 4, nIndices: pyIndex.length,
             primtype:gl.TRIANGLES, modelViewMatrix: mat4.create(), currentTime : Date.now()
         };
 
@@ -262,14 +262,14 @@ function bindShaderAttributes(glCtx, shaderProgram)
 function main()
 {
     //Create base pyramid face  
-    sierpinskiPyramid(-1, 0,-1.0,  -1.0,0,1,    0, 1, 0,  2)
+    drawMidTriangle(-1, 0,-1.0,  -1.0,0,1,    0, 1, 0,  2)
     //Create Left Front Face
-    sierpinskiPyramid(1, 0, 0.0,  0.0, 1, 0,   -1, 0, -1,  2)
+    drawMidTriangle(1, 0, 0.0,  0.0, 1, 0,   -1, 0, -1,  2)
     //Create Right Front Face
-    sierpinskiPyramid(1,0,0,  -1,0,1,   0,1, 0,  2)
+    drawMidTriangle(1,0,0,  -1,0,1,   0,1, 0,  2)
 
     //Create Back Face
-    sierpinskiPyramid(1, 0, 0.0,  -1, 0, -1,   -1, 0, 1,  2)
+    drawMidTriangle(1, 0, 0.0,  -1, 0, -1,   -1, 0, 1,  2)
 
 
     let canvas = document.getElementById("pyramidCanvas");
