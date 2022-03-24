@@ -1,5 +1,5 @@
 /*A01745530, Pablo García
-Examen 1
+Examen 1 Piramide de Sierpinski
 */
 
 let projectionMatrix = null, shaderProgram = null;
