@@ -181,14 +181,14 @@ function pyramidForm(gl, translation, rotationAxis, vertices)
     gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
     gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);    
 
-    //Array where all colors are pushed
+    //Arreglo donde se van a agregar los colores
     let rColors = [];
-    //Colores aleatorios para el trinagulo
-    for(var i =0; i <200; i++){
+    //Colores aleatorios generados para los triágulos
+    for(var i =0; i <65; i++){
         let a = Math.random()+0.2
         let b = Math.random()+0.1
         let c = Math.random()
-        let o = 1;
+        let o = 8;
         let tempColors =[a,b,c,o];
         rColors.push(tempColors)
     }
@@ -261,28 +261,26 @@ function bindShaderAttributes(glCtx, shaderProgram)
 
 function main()
 {
-    //Create base pyramid face  
-    drawMidTriangle(-1, 0,-1.0,  -1.0,0,1,    0, 1, 0,  2)
-    //Create Left Front Face
-    drawMidTriangle(1, 0, 0.0,  0.0, 1, 0,   -1, 0, -1,  2)
-    //Create Right Front Face
-    drawMidTriangle(1,0,0,  -1,0,1,   0,1, 0,  2)
-
-    //Create Back Face
-    drawMidTriangle(1, 0, 0.0,  -1, 0, -1,   -1, 0, 1,  2)
-
-
+    
     let canvas = document.getElementById("pyramidCanvas");
     let glCtx = initWebGL(canvas);
 
     initViewport(glCtx, canvas);
     initGL(glCtx, canvas);
 
-
     shaderProgram = initShader(glCtx, vertexShaderSource, fragmentShaderSource);
     bindShaderAttributes(glCtx, shaderProgram);
 
     update(glCtx, pyramiData);
+
+    //Crea la base de la piramide   
+    drawMidTriangle(-1,0,-1.0,   -1.0,0,1,   0,1,0,  2)
+    //Crea la cara izquierda de la piramide
+    drawMidTriangle(1,0,0.0,   0.0, 1, 0,   -1,0,-1,  2)
+    //Crea la cara derecha de la piramide
+    drawMidTriangle(1,0,0,   -1,0,1,   0,1,0,  2)
+    //Crea la cara de atrás de la piramide
+    drawMidTriangle(1,0,0.0,   -1,0,-1,   -1,0,1,  2)
 }
 
 main();
