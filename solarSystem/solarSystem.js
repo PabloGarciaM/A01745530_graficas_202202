@@ -2,6 +2,7 @@
 "use strict"; 
 
 import * as THREE from '../libs/three.js/three.module.js'
+//import * as THREE from 'three';
 import { OrbitControls } from '../libs/three.js/controls/OrbitControls.js';
 
 let renderer = null, scene = null, camera = null, group = null, objectList = [], orbitControls = null;
@@ -19,6 +20,16 @@ function main(){
 
     createScene(canvas);
     update();
+    SunCreation();
+    planet1();
+    planet2();
+    planet3();
+    planet4();
+    planet5();
+    planet6();
+    planet7();
+    planet8();
+
 }
 
 function onError ( err ){ console.error( err ); };
@@ -31,6 +42,130 @@ function onProgress( xhr )
         console.log( xhr.target.responseURL, Math.round( percentComplete, 2 ) + '% downloaded' );
     }
 }
+
+function SunCreation()
+{
+    var geometry2 = new THREE.SphereGeometry(40, 64,40);
+    geometry2.scale(1,1,1);
+    var material2 = new THREE.MeshBasicMaterial({
+        map: new THREE.TextureLoader().load('../images/solarSystem/2k_sun.jpg')
+    });
+    var mesh2 = new THREE.Mesh(geometry2, material2);
+    objectList.push(mesh2);
+    scene.add(mesh2);
+
+}
+
+function planet1(){
+//mercury
+    var geometry3 = new THREE.SphereGeometry(3, 64,40);//3
+    geometry3.scale(1,1,1);
+    var material3 = new THREE.MeshBasicMaterial({
+        map: new THREE.TextureLoader().load('../images/solarSystem/2k_mercury.jpg')
+    });
+    var mesh3 = new THREE.Mesh(geometry3, material3);
+    mesh3.position.x = -100;
+    objectList.push(mesh3);
+    scene.add(mesh3);
+    return mesh3;
+}
+function planet2(){
+    //Venus
+    var geometry4 = new THREE.SphereGeometry(9, 64,40);//9
+    geometry4.scale(1,1,1);
+    var material4 = new THREE.MeshBasicMaterial({
+        map: new THREE.TextureLoader().load('../images/solarSystem/2k_venus_surface.jpg')
+    });
+    var mesh4 = new THREE.Mesh(geometry4, material4);
+    mesh4.position.x = 60;
+    objectList.push(mesh4);
+
+    scene.add(mesh4);
+}
+function planet3(){
+    //earth
+    var geometry5 = new THREE.SphereGeometry(9, 64,40);//9
+    geometry5.scale(1,1,1);
+    var material5 = new THREE.MeshBasicMaterial({
+        map: new THREE.TextureLoader().load('../images/solarSystem/2k_earth_daymap.jpg')
+    });
+    var mesh5 = new THREE.Mesh(geometry5, material5);
+    mesh5.position.x = -80;
+    mesh5.position.z = -100;
+    objectList.push(mesh5);
+
+    scene.add(mesh5);
+}
+function planet4(){
+    //Mars
+    var geometry6 = new THREE.SphereGeometry(4.5, 64,40);//4.5
+    geometry6.scale(1,1,1);
+    var material6 = new THREE.MeshBasicMaterial({
+        map: new THREE.TextureLoader().load('../images/solarSystem/2k_mars.jpg')
+    });
+    var mesh6 = new THREE.Mesh(geometry6, material6);
+    mesh6.position.x = -80;
+    mesh6.position.z = -200;
+    objectList.push(mesh6);
+
+
+    scene.add(mesh6);
+}
+function planet5(){
+    //Jupiter
+    var geometry7 = new THREE.SphereGeometry(25, 64, 40);//25
+    geometry7.scale(1,1,1);
+    var material7 = new THREE.MeshBasicMaterial({
+        map: new THREE.TextureLoader().load('../images/solarSystem/2k_jupiter.jpg')
+    });
+    var mesh7 = new THREE.Mesh(geometry7, material7);
+    mesh7.position.x = -100;
+    mesh7.position.z = 300;
+    objectList.push(mesh7);
+
+    scene.add(mesh7);
+}
+function planet6(){
+    //Saturn
+    var geometry8 = new THREE.SphereGeometry(22, 64,40);//22
+    geometry8.scale(1,1,1);
+    var material8 = new THREE.MeshBasicMaterial({
+        map: new THREE.TextureLoader().load('../images/solarSystem/2k_saturn.jpg')
+    });
+    var mesh8 = new THREE.Mesh(geometry8, material8);
+    mesh8.position.x = 250;
+    mesh8.position.z = -600;
+    objectList.push(mesh8);
+
+    scene.add(mesh8);
+}
+function planet7(){
+    //Uranus
+    var geometry9 = new THREE.SphereGeometry(12, 64,40);
+    geometry9.scale(1,1,1);
+    var material9 = new THREE.MeshBasicMaterial({
+        map: new THREE.TextureLoader().load('../images/solarSystem/2k_uranus.jpg')
+    });
+    var mesh9 = new THREE.Mesh(geometry9, material9);
+    mesh9.position.x = -550;
+    objectList.push(mesh9);
+
+    scene.add(mesh9);
+}
+function planet8(){
+        //Neptuno
+    var geometry10 = new THREE.SphereGeometry(11, 64,40);
+    geometry10.scale(1,1,1);
+    var material10 = new THREE.MeshBasicMaterial({
+        map: new THREE.TextureLoader().load('../images/solarSystem/2k_neptune.jpg')
+    });
+    var mesh10 = new THREE.Mesh(geometry10, material10);
+    mesh10.position.x = 550;
+    objectList.push(mesh10);
+
+    scene.add(mesh10);
+}
+
 function createScene(canvas){
 
 
@@ -56,22 +191,13 @@ camera.position.y = 1.5;
 
 orbitControls.maxDistance = 700;
 
+//
+
+
 //orbitControls.update();
 const ambientLight = new THREE.AmbientLight(0x444444);
 scene.add(ambientLight);
-/*
-const cubeTextureLoader = new THREE.CubeTextureLoader();
-scene.background = cubeTextureLoader.load([
-    sunTexture,
-    sunTexture,
-    sunTexture,
-    sunTexture,
-    sunTexture,
-    sunTexture
-]);
 
-const textureLoader = new THREE.TextureLoader();
-*/
 
 //Create stars background
 
@@ -85,104 +211,8 @@ scene.add(mesh);
 
 
 //Sun
-var geometry2 = new THREE.SphereGeometry(40, 64,40);
-geometry2.scale(1,1,1);
-var material2 = new THREE.MeshBasicMaterial({
-    map: new THREE.TextureLoader().load('../images/solarSystem/2k_sun.jpg')
-});
-var mesh2 = new THREE.Mesh(geometry2, material2);
-
-scene.add(mesh2);
-
-//mercury
-var geometry3 = new THREE.SphereGeometry(3, 64,40);
-geometry3.scale(1,1,1);
-var material3 = new THREE.MeshBasicMaterial({
-    map: new THREE.TextureLoader().load('../images/solarSystem/2k_mercury.jpg')
-});
-var mesh3 = new THREE.Mesh(geometry3, material3);
-mesh3.position.x = -50;
-
-scene.add(mesh3);
-
-//Venus
-var geometry4 = new THREE.SphereGeometry(9, 64,40);
-geometry4.scale(1,1,1);
-var material4 = new THREE.MeshBasicMaterial({
-    map: new THREE.TextureLoader().load('../images/solarSystem/2k_venus_surface.jpg')
-});
-var mesh4 = new THREE.Mesh(geometry4, material4);
-mesh4.position.x = 60;
-
-scene.add(mesh4);
-//earth
-var geometry5 = new THREE.SphereGeometry(9, 64,40);
-geometry5.scale(1,1,1);
-var material5 = new THREE.MeshBasicMaterial({
-    map: new THREE.TextureLoader().load('../images/solarSystem/2k_earth_daymap.jpg')
-});
-var mesh5 = new THREE.Mesh(geometry5, material5);
-mesh5.position.x = -80;
-mesh5.position.z = -100;
 
 
-scene.add(mesh5);
-//Mars
-var geometry6 = new THREE.SphereGeometry(4.5, 64,40);
-geometry6.scale(1,1,1);
-var material6 = new THREE.MeshBasicMaterial({
-    map: new THREE.TextureLoader().load('../images/solarSystem/2k_mars.jpg')
-});
-var mesh6 = new THREE.Mesh(geometry6, material6);
-mesh6.position.x = -80;
-mesh6.position.z = -200;
-
-
-scene.add(mesh6);
-//Jupiter
-var geometry7 = new THREE.SphereGeometry(25, 64, 40);
-geometry7.scale(1,1,1);
-var material7 = new THREE.MeshBasicMaterial({
-    map: new THREE.TextureLoader().load('../images/solarSystem/2k_jupiter.jpg')
-});
-var mesh7 = new THREE.Mesh(geometry7, material7);
-mesh7.position.x = -100;
-mesh7.position.z = 300;
-
-scene.add(mesh7);
-//Saturn
-var geometry8 = new THREE.SphereGeometry(22, 64,40);
-geometry8.scale(1,1,1);
-var material8 = new THREE.MeshBasicMaterial({
-    map: new THREE.TextureLoader().load('../images/solarSystem/2k_saturn.jpg')
-});
-var mesh8 = new THREE.Mesh(geometry8, material8);
-mesh8.position.x = 250;
-mesh8.position.z = -600;
-
-scene.add(mesh8);
-
-//Uranus
-var geometry9 = new THREE.SphereGeometry(12, 64,40);
-geometry9.scale(1,1,1);
-var material9 = new THREE.MeshBasicMaterial({
-    map: new THREE.TextureLoader().load('../images/solarSystem/2k_uranus.jpg')
-});
-var mesh9 = new THREE.Mesh(geometry9, material9);
-mesh9.position.x = -550;
-
-scene.add(mesh9);
-
-//Neptuno
-var geometry10 = new THREE.SphereGeometry(11, 64,40);
-geometry10.scale(1,1,1);
-var material10 = new THREE.MeshBasicMaterial({
-    map: new THREE.TextureLoader().load('../images/solarSystem/2k_neptune.jpg')
-});
-var mesh10 = new THREE.Mesh(geometry10, material10);
-mesh10.position.x = 550;
-
-scene.add(mesh10);
 
 //Pluto
 var geometry3 = new THREE.SphereGeometry(10,64,40);
@@ -194,31 +224,41 @@ var mesh3 = new THREE.Mesh(geometry3, material3);
 mesh3.position.x = -60;
 
 //scene.add(mesh3);
-
-
+const planets = [
+    {
+        url:'../images/solarSystem/2k_earth_daymap.jpg',
+        scene: undefined,
+        scale: [0.2,0.2,0.2],
+        distance: 0,
+        rotation:[0.2,0.2,0.2] 
+    }
+]
 
 }
 
 function animate(){
-
+    
     let now = Date.now();
     let deltat = now - currentTime;
     currentTime = now;
     let fract = deltat / duration;
     let angle = Math.PI * 2 * fract;
+    for(const mesh of objectList)
+        if(mesh)
+            mesh.rotation.y += angle / 3;
 
-    for(const object of objectList)
-        if(object)
-            object.rotation.y += angle / 2;
-        }
+        
+        
+}
 
+//renderer.setAnimationLoop(animate);
 
 function update() 
 {
     requestAnimationFrame(function() { update(); });
     
     // Render the scene
-    renderer.render( scene, camera );
+    renderer.render(scene, camera);
 
     // Spin the cube for next frame
     animate();
