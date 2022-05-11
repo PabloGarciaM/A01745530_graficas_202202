@@ -24,21 +24,71 @@ function main(){
 
     createScene(canvas);
     update();
+    shoulderCreation();
+    armCreation();
+    elbowCreation();
+    foreArmCreation();
+    wristCreation();
+    handCreation();
 
-    SunCreation();
+
 }
 
-function SunCreation()
+function shoulderCreation(){
+    var robotGeo = new THREE.BoxGeometry(10, 15,10, 15);
+    robotGeo.scale(0.5,0.5,0.5);
+    var material2 = new THREE.MeshBasicMaterial({
+        map: new THREE.TextureLoader().load('../images/robotArm/cristal.jpg')
+    });
+    var robotMesh = new THREE.Mesh(robotGeo, material2);
+    
+    robotMesh.rotation.z = Math.PI / 2;
+    robotMesh.position.x = 22;
+
+    objectList.push(robotMesh);
+    scene.add(robotMesh);
+}
+function elbowCreation(){
+    var robotGeo = new THREE.BoxGeometry(10, 15,10, 15);
+    robotGeo.scale(0.5,0.5,0.5);
+    var material2 = new THREE.MeshBasicMaterial({
+        map: new THREE.TextureLoader().load('../images/robotArm/cristal.jpg')
+    });
+    var robotMesh = new THREE.Mesh(robotGeo, material2);
+    
+    robotMesh.rotation.z = Math.PI / 2;
+    robotMesh.position.x = -2;
+
+    objectList.push(robotMesh);
+    scene.add(robotMesh);
+}
+function wristCreation(){
+    var robotGeo = new THREE.BoxGeometry(15, 10,10, 15);
+    robotGeo.scale(0.5,0.5,0.5);
+    var material2 = new THREE.MeshBasicMaterial({
+        map: new THREE.TextureLoader().load('../images/robotArm/cristal.jpg')
+    });
+    var robotMesh = new THREE.Mesh(robotGeo, material2);
+    
+    robotMesh.rotation.z = Math.PI / 2;
+    robotMesh.position.x = -2;
+    robotMesh.position.y = 24;
+
+    objectList.push(robotMesh);
+    scene.add(robotMesh);
+}
+function armCreation()
 {
-    var geometry2 = new THREE.BoxGeometry(10, 20,20, 15);
+    var geometry2 = new THREE.BoxGeometry(10, 20,10, 15);
     geometry2.scale(1,1,1);
     var material2 = new THREE.MeshBasicMaterial({
-        map: new THREE.TextureLoader().load('../images/solarSystem/2k_sun.jpg')
+        map: new THREE.TextureLoader().load('../images/robotArm/tech2.jpg')
     });
     var mesh2 = new THREE.Mesh(geometry2, material2);
-    mesh2.position.z =150;
+    
+    mesh2.rotation.z = Math.PI / 2;
+    mesh2.position.x = 10;
 
-    mesh2.position.y = 0;
     objectList.push(mesh2);
     scene.add(mesh2);
 
@@ -47,6 +97,49 @@ function SunCreation()
     lightCenter.position.set(0,0,0);
     mesh2.add(lightCenter);
 }   
+function foreArmCreation()
+{
+    var geometry2 = new THREE.BoxGeometry(10, 20,10, 15);
+    geometry2.scale(1,1,1);
+    var material2 = new THREE.MeshBasicMaterial({
+        map: new THREE.TextureLoader().load('../images/robotArm/tech2.jpg')
+    });
+    var mesh2 = new THREE.Mesh(geometry2, material2);
+    
+    mesh2.rotation.z = Math.PI / 180;
+    mesh2.position.x = -2;
+    mesh2.position.y = 12;
+
+    objectList.push(mesh2);
+    scene.add(mesh2);
+
+    //Light
+    var lightCenter = new THREE.PointLight(0xff0000,5,10);
+    lightCenter.position.set(0,0,0);
+    mesh2.add(lightCenter);
+}  
+function handCreation()
+{
+    var geometry2 = new THREE.BoxGeometry(10, 12,10, 15);
+    geometry2.scale(1,1,1);
+    var material2 = new THREE.MeshBasicMaterial({
+        map: new THREE.TextureLoader().load('../images/robotArm/tech2.jpg')
+    });
+    var mesh2 = new THREE.Mesh(geometry2, material2);
+    
+    mesh2.rotation.z = Math.PI / 2;
+    mesh2.position.x = 6;
+    mesh2.position.y = 25;
+
+    objectList.push(mesh2);
+    scene.add(mesh2);
+
+    //Light
+    var lightCenter = new THREE.PointLight(0xff0000,5,10);
+    lightCenter.position.set(0,0,0);
+    mesh2.add(lightCenter);
+}  
+
 
 function createScene(canvas){
 
@@ -64,14 +157,15 @@ function createScene(canvas){
     scene = new THREE.Scene();
     
     // Add  a camera so we can view the scene
-    camera = new THREE.PerspectiveCamera( 45, canvas.width / canvas.height, 1, 4000 );
+    camera = new THREE.PerspectiveCamera( 65, canvas.width / canvas.height, 1, 4000);
     
     orbitControls  = new OrbitControls(camera, renderer.domElement);
-    camera.position.z = 800;
-    camera.position.y = 1.5;
+    camera.position.z = 500;
+    camera.position.y = 150;
+    camera.position.x =-100;
     
     
-    orbitControls.maxDistance = 700;
+    orbitControls.maxDistance = 60;
     
     //
     
@@ -127,7 +221,7 @@ function update()
     renderer.render(scene, camera);
 
     // Spin the cube for next frame
-    animate();
+    //animate();
 
     // Update the camera controller
     orbitControls.update();
