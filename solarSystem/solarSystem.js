@@ -1,14 +1,14 @@
 
 "use strict"; 
 
-import * as THREE from '../libs/three.js/three.module.js'
+import * as THREE from '../libs/three.js/three.module.js';
 //import * as THREE from 'three';
 import { OrbitControls } from '../libs/three.js/controls/OrbitControls.js';
 
 let renderer = null, scene = null, camera = null, group = null, objectList = [], orbitControls = null;
 
 
-let duration = 20000; // ms
+let duration = 10000; // ms
 let currentTime = Date.now();
 let backgTexture2 = "../images/solarSystem/2k_stars_milky_way.jpg";
 let sunTexture = "../images/solarSystem/2k_sun.jpg";
@@ -20,14 +20,27 @@ function main(){
 
     createScene(canvas);
     update();
+    //Sun
     SunCreation();
+    //Mercury
     planet1();
+    //Venus
     planet2();
+    //Earth
     planet3();
+    //moonEarth
+    earthMoon();
+    //Mars
     planet4();
+    //moonsMars
+    marsMoons();
+    //Jupiter
     planet5();
+    //Saturn
     planet6();
+    //Uranus
     planet7();
+    //Neptune
     planet8();
 
 }
@@ -54,7 +67,11 @@ function SunCreation()
     objectList.push(mesh2);
     scene.add(mesh2);
 
-}
+    //Light
+    var lightCenter = new THREE.PointLight(0xff0000,5,10);
+    lightCenter.position.set(0,0,0);
+    mesh2.add(lightCenter);
+}   
 
 function planet1(){
 //mercury
@@ -64,7 +81,7 @@ function planet1(){
         map: new THREE.TextureLoader().load('../images/solarSystem/2k_mercury.jpg')
     });
     var mesh3 = new THREE.Mesh(geometry3, material3);
-    mesh3.position.x = -100;
+    mesh3.position.x = -55;
     objectList.push(mesh3);
     scene.add(mesh3);
     return mesh3;
@@ -77,7 +94,7 @@ function planet2(){
         map: new THREE.TextureLoader().load('../images/solarSystem/2k_venus_surface.jpg')
     });
     var mesh4 = new THREE.Mesh(geometry4, material4);
-    mesh4.position.x = 60;
+    mesh4.position.x = 70;
     objectList.push(mesh4);
 
     scene.add(mesh4);
@@ -96,6 +113,19 @@ function planet3(){
 
     scene.add(mesh5);
 }
+function earthMoon(){
+    //earthMoon
+    var geoMoon = new THREE.SphereGeometry(2, 64,40);//9
+    geoMoon.scale(1,1,1);
+    var moonMat = new THREE.MeshBasicMaterial({
+        map: new THREE.TextureLoader().load('../images/solarSystem/2k_moon.jpg')
+    });
+    var moonMesh = new THREE.Mesh(geoMoon, moonMat);
+    moonMesh.position.x = -65;
+    moonMesh.position.z = -100;
+    objectList.push(moonMesh);
+    scene.add(moonMesh);
+}
 function planet4(){
     //Mars
     var geometry6 = new THREE.SphereGeometry(4.5, 64,40);//4.5
@@ -110,6 +140,27 @@ function planet4(){
 
 
     scene.add(mesh6);
+}
+function marsMoons(){
+    //marsMoon1
+    var geoMoon1 = new THREE.SphereGeometry(1, 64,40);//9
+    geoMoon1.scale(1,1,1);
+    var moonMat1 = new THREE.MeshBasicMaterial({
+        map: new THREE.TextureLoader().load('../images/solarSystem/2k_moon.jpg')
+    });
+    var moonMesh1 = new THREE.Mesh(geoMoon1, moonMat1);
+    var moonMesh2 = new THREE.Mesh(geoMoon1, moonMat1);
+    
+    moonMesh1.position.x = -65;
+    moonMesh1.position.z = -200;
+    moonMesh2.position.x = -90;
+    moonMesh2.position.z = -200;
+
+    objectList.push(moonMesh1);
+    objectList.push(moonMesh2);
+
+    scene.add(moonMesh1);
+    scene.add(moonMesh2);
 }
 function planet5(){
     //Jupiter
@@ -195,8 +246,8 @@ orbitControls.maxDistance = 700;
 
 
 //orbitControls.update();
-const ambientLight = new THREE.AmbientLight(0x444444);
-scene.add(ambientLight);
+//const ambientLight = new THREE.AmbientLight(0x444444);
+//scene.add(ambientLight);
 
 
 //Create stars background
