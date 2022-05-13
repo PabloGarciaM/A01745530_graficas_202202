@@ -5,7 +5,8 @@ import * as THREE from '../libs/three.js/three.module.js';
 //import * as THREE from 'three';
 import { OrbitControls } from '../libs/three.js/controls/OrbitControls.js';
 
-let renderer = null, scene = null, camera = null, group = null, objectList = [], orbitControls = null, celestObj = [],moons=[];
+let renderer = null, scene = null, camera = null, group = null, objectList = [], orbitControls = null;
+let celestObj = [],moons=[], mercuryOrb=[];
 
 
 let duration = 10000; // ms
@@ -94,7 +95,7 @@ function planet1(){
     mercuryObj.add(mercuryM);
 
     scene.add(mercuryObj);
-    objectList.push(mercuryObj);
+    mercuryOrb.push(mercuryObj);
 
    
     
@@ -131,6 +132,12 @@ function planet3(){
     eartM.position.z = -100;
     objectList.push(eartM);
 
+    const earthObj = new THREE.Object3D();
+    earthObj.add(eartM);
+
+    scene.add(earthObj);
+    objectList.push(earthObj);
+
 
     var geoMoon = new THREE.SphereGeometry(2, 64,40);//9
     geoMoon.scale(1,1,1);
@@ -140,13 +147,15 @@ function planet3(){
     var moonMesh = new THREE.Mesh(geoMoon, moonMat);
     moonMesh.position.x = -20;
 
-    eartM.add(moonMesh);
 
-    const earthObj = new THREE.Object3D();
-    earthObj.add(eartM);
+    const moonObj = new THREE.Object3D();
+    moonObj.add(moonMesh);
+    eartM.add(moonObj);
 
-    scene.add(earthObj);
-    objectList.push(earthObj);
+    //scene.add(moonObj);
+    mercuryOrb.push(moonObj);
+
+    
 
 
 }
@@ -176,43 +185,41 @@ function planet4(){
     marsM.position.z = -200;
     objectList.push(marsM);
 
-    var moon1 = moons[0];
-    var moon2 = moons[1];
-    marsM.add(moon1);
-    marsM.add(moon2);
-
     const marsObj = new THREE.Object3D();
 
     marsObj.add(marsM);
     scene.add(marsObj);
 
     objectList.push(marsObj);
-
-}
-function marsMoons(){
-    //marsMoon1
-    var geoMoon1 = new THREE.SphereGeometry(1, 64,40);//9
-    geoMoon1.scale(1,1,1);
-    var moonMat1 = new THREE.MeshBasicMaterial({
+    //Moons
+    var geoMoon = new THREE.SphereGeometry(2, 64,40);//9
+    geoMoon.scale(1,1,1);
+    var moonMat = new THREE.MeshBasicMaterial({
         map: new THREE.TextureLoader().load('../images/solarSystem/2k_moon.jpg')
     });
-    var moonMesh1 = new THREE.Mesh(geoMoon1, moonMat1);
-    var moonMesh2 = new THREE.Mesh(geoMoon1, moonMat1);
-    
-    moonMesh1.position.x = -65;
-    moonMesh1.position.z = -200;
-    moonMesh2.position.x = -90;
-    moonMesh2.position.z = -200;
+    var moonMesh = new THREE.Mesh(geoMoon, moonMat);
+    var moonMesh2 = new THREE.Mesh(geoMoon, moonMat);
+    moonMesh.position.x = 0;
+    moonMesh.position.z = -20;
+    moonMesh2.position.x = 0;
+    moonMesh2.position.z = 20;
 
-    objectList.push(moonMesh1);
-    objectList.push(moonMesh2);
 
-    scene.add(moonMesh1);
-    scene.add(moonMesh2);
+    const moonObj = new THREE.Object3D();
+    const moonObj2 = new THREE.Object3D();
 
-    moons.push(moonMesh1);
-    moons.push(moonMesh2);
+    moonObj.add(moonMesh);
+    marsM.add(moonObj);
+
+    moonObj2.add(moonMesh2);
+    marsM.add(moonObj2);
+
+    //scene.add(moonObj);
+    mercuryOrb.push(moonObj);
+    mercuryOrb.push(moonObj2);
+
 }
+
 function planet5(){
     //Jupiter
     var geometry7 = new THREE.SphereGeometry(25, 64, 40);//25
@@ -229,11 +236,125 @@ function planet5(){
     const jupiterObj = new THREE.Object3D();
     jupiterObj.add(jupiterM);
     scene.add(jupiterObj);
-    objectList.push(jupiterObj);
+    celestObj.push(jupiterObj);
+    //Moons
+
+    var geoMoon = new THREE.SphereGeometry(2, 64,40);//9
+    geoMoon.scale(1,1,1);
+    var moonMat = new THREE.MeshBasicMaterial({
+        map: new THREE.TextureLoader().load('../images/solarSystem/2k_moon.jpg')
+    });
+    var moonMesh = new THREE.Mesh(geoMoon, moonMat);
+    var moonMesh2 = new THREE.Mesh(geoMoon, moonMat);
+    var moonMesh3 = new THREE.Mesh(geoMoon, moonMat);
+    var moonMesh4 = new THREE.Mesh(geoMoon, moonMat);
+    var moonMesh5 = new THREE.Mesh(geoMoon, moonMat);
+    var moonMesh6 = new THREE.Mesh(geoMoon, moonMat);
+    var moonMesh7 = new THREE.Mesh(geoMoon, moonMat);
+    var moonMesh8 = new THREE.Mesh(geoMoon, moonMat);
+    var moonMesh9 = new THREE.Mesh(geoMoon, moonMat);
+    var moonMesh10 = new THREE.Mesh(geoMoon, moonMat);
+
+
+    moonMesh.position.x = 0;
+    moonMesh.position.z = -60;
+    moonMesh.position.y = 25;
+
+    moonMesh2.position.x = -30;
+    moonMesh2.position.z = 20;
+    moonMesh2.position.y = 45;
+
+    moonMesh3.position.x = -40;
+    moonMesh3.position.z = 64;
+    moonMesh3.position.y = -40;
+
+    moonMesh4.position.x = 10;
+    moonMesh4.position.z = -38;
+
+    moonMesh5.position.x = 26;
+    moonMesh5.position.z = 68;
+    moonMesh5.position.y = 10;
+
+
+    moonMesh6.position.x = -28;
+    moonMesh6.position.z = -68;
+    moonMesh6.position.y = -20;
+
+    moonMesh7.position.x = -26;
+    moonMesh7.position.z = 70;
+    moonMesh7.position.y = -12;
+
+
+    moonMesh8.position.x = 24;
+    moonMesh8.position.z = -32;
+
+    moonMesh9.position.x = -41;
+    moonMesh9.position.z = 72;
+    moonMesh9.position.y = 23;
+
+
+    moonMesh10.position.x = -40;
+    moonMesh10.position.z = -42;
 
     
 
-    //planetList.push(mesh7);
+
+
+    const moonObj = new THREE.Object3D();
+    const moonObj2 = new THREE.Object3D();
+    const moonObj3 = new THREE.Object3D();
+    const moonObj4 = new THREE.Object3D();
+    const moonObj5 = new THREE.Object3D();
+    const moonObj6 = new THREE.Object3D();
+    const moonObj7 = new THREE.Object3D();
+    const moonObj8 = new THREE.Object3D();
+    const moonObj9 = new THREE.Object3D();
+    const moonObj10 = new THREE.Object3D();
+
+
+    moonObj.add(moonMesh);
+    jupiterM.add(moonObj);
+
+    moonObj2.add(moonMesh2);
+    jupiterM.add(moonObj2);
+
+    moonObj3.add(moonMesh3);
+    jupiterM.add(moonObj3);
+
+    moonObj4.add(moonMesh4);
+    jupiterM.add(moonObj4);
+
+    moonObj5.add(moonMesh5);
+    jupiterM.add(moonObj5);
+
+    moonObj6.add(moonMesh6);
+    jupiterM.add(moonObj6);
+
+    moonObj7.add(moonMesh7);
+    jupiterM.add(moonObj7);
+
+    moonObj8.add(moonMesh8);
+    jupiterM.add(moonObj8);
+
+    moonObj9.add(moonMesh9);
+    jupiterM.add(moonObj9);
+
+    moonObj10.add(moonMesh10);
+    jupiterM.add(moonObj10);
+
+    //scene.add(moonObj);
+    mercuryOrb.push(moonObj);
+    celestObj.push(moonObj2);
+    mercuryOrb.push(moonObj3);
+    celestObj.push(moonObj4);
+    mercuryOrb.push(moonObj5);
+    celestObj.push(moonObj6);
+    mercuryOrb.push(moonObj7);
+    celestObj.push(moonObj8);
+    mercuryOrb.push(moonObj9);
+    celestObj.push(moonObj10);
+
+    
 }
 function planet6(){
     //Saturn
@@ -271,8 +392,124 @@ function planet6(){
     ringObj.add(ringM);
     scene.add(ringObj);
 
-    objectList.push(saturnObj);
-    objectList.push(ringObj);
+    celestObj.push(saturnObj);
+    celestObj.push(ringObj);
+
+    //Moons
+    var geoMoon = new THREE.SphereGeometry(2, 64,40);//9
+    geoMoon.scale(1,1,1);
+    var moonMat = new THREE.MeshBasicMaterial({
+        map: new THREE.TextureLoader().load('../images/solarSystem/2k_moon.jpg')
+    });
+    var moonMesh = new THREE.Mesh(geoMoon, moonMat);
+    var moonMesh2 = new THREE.Mesh(geoMoon, moonMat);
+    var moonMesh3 = new THREE.Mesh(geoMoon, moonMat);
+    var moonMesh4 = new THREE.Mesh(geoMoon, moonMat);
+    var moonMesh5 = new THREE.Mesh(geoMoon, moonMat);
+    var moonMesh6 = new THREE.Mesh(geoMoon, moonMat);
+    var moonMesh7 = new THREE.Mesh(geoMoon, moonMat);
+    var moonMesh8 = new THREE.Mesh(geoMoon, moonMat);
+    var moonMesh9 = new THREE.Mesh(geoMoon, moonMat);
+    var moonMesh10 = new THREE.Mesh(geoMoon, moonMat);
+
+
+    moonMesh.position.x = 0;
+    moonMesh.position.z = -60;
+    moonMesh.position.y = 25;
+
+    moonMesh2.position.x = -30;
+    moonMesh2.position.z = 20;
+    moonMesh2.position.y = 45;
+
+    moonMesh3.position.x = -40;
+    moonMesh3.position.z = 64;
+    moonMesh3.position.y = -40;
+
+    moonMesh4.position.x = 10;
+    moonMesh4.position.z = -38;
+
+    moonMesh5.position.x = 26;
+    moonMesh5.position.z = 68;
+    moonMesh5.position.y = 10;
+
+
+    moonMesh6.position.x = -28;
+    moonMesh6.position.z = -68;
+    moonMesh6.position.y = -20;
+
+    moonMesh7.position.x = -26;
+    moonMesh7.position.z = 70;
+    moonMesh7.position.y = -12;
+
+
+    moonMesh8.position.x = 24;
+    moonMesh8.position.z = -32;
+
+    moonMesh9.position.x = -41;
+    moonMesh9.position.z = 72;
+    moonMesh9.position.y = 23;
+
+
+    moonMesh10.position.x = -40;
+    moonMesh10.position.z = -42;
+
+    
+
+
+
+    const moonObj = new THREE.Object3D();
+    const moonObj2 = new THREE.Object3D();
+    const moonObj3 = new THREE.Object3D();
+    const moonObj4 = new THREE.Object3D();
+    const moonObj5 = new THREE.Object3D();
+    const moonObj6 = new THREE.Object3D();
+    const moonObj7 = new THREE.Object3D();
+    const moonObj8 = new THREE.Object3D();
+    const moonObj9 = new THREE.Object3D();
+    const moonObj10 = new THREE.Object3D();
+
+
+    moonObj.add(moonMesh);
+    saturnM.add(moonObj);
+
+    moonObj2.add(moonMesh2);
+    saturnM.add(moonObj2);
+
+    moonObj3.add(moonMesh3);
+    saturnM.add(moonObj3);
+
+    moonObj4.add(moonMesh4);
+    saturnM.add(moonObj4);
+
+    moonObj5.add(moonMesh5);
+    saturnM.add(moonObj5);
+
+    moonObj6.add(moonMesh6);
+    saturnM.add(moonObj6);
+
+    moonObj7.add(moonMesh7);
+    saturnM.add(moonObj7);
+
+    moonObj8.add(moonMesh8);
+    saturnM.add(moonObj8);
+
+    moonObj9.add(moonMesh9);
+    saturnM.add(moonObj9);
+
+    moonObj10.add(moonMesh10);
+    saturnM.add(moonObj10);
+
+    //scene.add(moonObj);
+    mercuryOrb.push(moonObj);
+    celestObj.push(moonObj2);
+    mercuryOrb.push(moonObj3);
+    celestObj.push(moonObj4);
+    mercuryOrb.push(moonObj5);
+    celestObj.push(moonObj6);
+    mercuryOrb.push(moonObj7);
+    celestObj.push(moonObj8);
+    mercuryOrb.push(moonObj9);
+    celestObj.push(moonObj10);
 
 }
 function planet7(){
@@ -291,7 +528,109 @@ function planet7(){
     const uranusObj = new THREE.Object3D();
     uranusObj.add(uranusM);
     scene.add(uranusObj);
-    objectList.push(uranusObj);
+    celestObj.push(uranusObj);
+    //Moons
+    var geoMoon = new THREE.SphereGeometry(2, 64,40);//9
+    geoMoon.scale(1,1,1);
+    var moonMat = new THREE.MeshBasicMaterial({
+        map: new THREE.TextureLoader().load('../images/solarSystem/2k_moon.jpg')
+    });
+    var moonMesh = new THREE.Mesh(geoMoon, moonMat);
+    var moonMesh2 = new THREE.Mesh(geoMoon, moonMat);
+    var moonMesh3 = new THREE.Mesh(geoMoon, moonMat);
+    var moonMesh4 = new THREE.Mesh(geoMoon, moonMat);
+    var moonMesh5 = new THREE.Mesh(geoMoon, moonMat);
+    var moonMesh6 = new THREE.Mesh(geoMoon, moonMat);
+    var moonMesh7 = new THREE.Mesh(geoMoon, moonMat);
+    var moonMesh8 = new THREE.Mesh(geoMoon, moonMat);
+   
+
+
+    moonMesh.position.x = 0;
+    moonMesh.position.z = -60;
+    moonMesh.position.y = 25;
+
+    moonMesh2.position.x = -30;
+    moonMesh2.position.z = 20;
+    moonMesh2.position.y = 45;
+
+    moonMesh3.position.x = -40;
+    moonMesh3.position.z = 64;
+    moonMesh3.position.y = -40;
+
+    moonMesh4.position.x = 10;
+    moonMesh4.position.z = -38;
+
+    moonMesh5.position.x = 26;
+    moonMesh5.position.z = 68;
+    moonMesh5.position.y = 10;
+
+
+    moonMesh6.position.x = -28;
+    moonMesh6.position.z = -68;
+    moonMesh6.position.y = -20;
+
+    moonMesh7.position.x = -26;
+    moonMesh7.position.z = 70;
+    moonMesh7.position.y = -12;
+
+
+    moonMesh8.position.x = 24;
+    moonMesh8.position.z = -32;
+
+    
+
+
+
+    const moonObj = new THREE.Object3D();
+    const moonObj2 = new THREE.Object3D();
+    const moonObj3 = new THREE.Object3D();
+    const moonObj4 = new THREE.Object3D();
+    const moonObj5 = new THREE.Object3D();
+    const moonObj6 = new THREE.Object3D();
+    const moonObj7 = new THREE.Object3D();
+    const moonObj8 = new THREE.Object3D();
+
+
+
+    moonObj.add(moonMesh);
+    uranusM.add(moonObj);
+
+    moonObj2.add(moonMesh2);
+    uranusM.add(moonObj2);
+
+    moonObj3.add(moonMesh3);
+    uranusM.add(moonObj3);
+
+    moonObj4.add(moonMesh4);
+    uranusM.add(moonObj4);
+
+    moonObj5.add(moonMesh5);
+    uranusM.add(moonObj5);
+
+    moonObj6.add(moonMesh6);
+    uranusM.add(moonObj6);
+
+    moonObj7.add(moonMesh7);
+    uranusM.add(moonObj7);
+
+    moonObj8.add(moonMesh8);
+    uranusM.add(moonObj8);
+
+
+
+    //scene.add(moonObj);
+    mercuryOrb.push(moonObj);
+    celestObj.push(moonObj2);
+    mercuryOrb.push(moonObj3);
+    celestObj.push(moonObj4);
+    mercuryOrb.push(moonObj5);
+    celestObj.push(moonObj6);
+    mercuryOrb.push(moonObj7);
+    celestObj.push(moonObj8);
+
+
+    
 
 }
 function planet8(){
@@ -310,13 +649,107 @@ function planet8(){
     const neptuneObj = new THREE.Object3D();
     neptuneObj.add(neptuneM);
     scene.add(neptuneObj);
-    objectList.push(neptuneObj);
+    celestObj.push(neptuneObj);
+
+    //Moons
+    var geoMoon = new THREE.SphereGeometry(2, 64,40);//9
+    geoMoon.scale(1,1,1);
+    var moonMat = new THREE.MeshBasicMaterial({
+        map: new THREE.TextureLoader().load('../images/solarSystem/2k_moon.jpg')
+    });
+    var moonMesh = new THREE.Mesh(geoMoon, moonMat);
+    var moonMesh2 = new THREE.Mesh(geoMoon, moonMat);
+    var moonMesh3 = new THREE.Mesh(geoMoon, moonMat);
+    var moonMesh4 = new THREE.Mesh(geoMoon, moonMat);
+    var moonMesh5 = new THREE.Mesh(geoMoon, moonMat);
+    var moonMesh6 = new THREE.Mesh(geoMoon, moonMat);
+    var moonMesh7 = new THREE.Mesh(geoMoon, moonMat);
+    var moonMesh8 = new THREE.Mesh(geoMoon, moonMat);
+   
+
+
+    moonMesh.position.x = 0;
+    moonMesh.position.z = -60;
+    moonMesh.position.y = 25;
+
+    moonMesh2.position.x = -30;
+    moonMesh2.position.z = 20;
+    moonMesh2.position.y = 45;
+
+    moonMesh3.position.x = -40;
+    moonMesh3.position.z = 64;
+    moonMesh3.position.y = -40;
+
+    moonMesh4.position.x = 10;
+    moonMesh4.position.z = -38;
+
+    moonMesh5.position.x = 26;
+    moonMesh5.position.z = 68;
+    moonMesh5.position.y = 10;
+
+
+    moonMesh6.position.x = -28;
+    moonMesh6.position.z = -68;
+    moonMesh6.position.y = -20;
+
+    moonMesh7.position.x = -26;
+    moonMesh7.position.z = 70;
+    moonMesh7.position.y = -12;
+    
+
+
+
+    const moonObj = new THREE.Object3D();
+    const moonObj2 = new THREE.Object3D();
+    const moonObj3 = new THREE.Object3D();
+    const moonObj4 = new THREE.Object3D();
+    const moonObj5 = new THREE.Object3D();
+    const moonObj6 = new THREE.Object3D();
+    const moonObj7 = new THREE.Object3D();
+;
+
+
+
+    moonObj.add(moonMesh);
+    neptuneM.add(moonObj);
+
+    moonObj2.add(moonMesh2);
+    neptuneM.add(moonObj2);
+
+    moonObj3.add(moonMesh3);
+    neptuneM.add(moonObj3);
+
+    moonObj4.add(moonMesh4);
+    neptuneM.add(moonObj4);
+
+    moonObj5.add(moonMesh5);
+    neptuneM.add(moonObj5);
+
+    moonObj6.add(moonMesh6);
+    neptuneM.add(moonObj6);
+
+    moonObj7.add(moonMesh7);
+    neptuneM.add(moonObj7);
+
+
+
+
+
+    //scene.add(moonObj);
+    mercuryOrb.push(moonObj);
+    celestObj.push(moonObj2);
+    mercuryOrb.push(moonObj3);
+    celestObj.push(moonObj4);
+    mercuryOrb.push(moonObj5);
+    celestObj.push(moonObj6);
+    mercuryOrb.push(moonObj7);
+
 
 }
 
 function notAplanet(){
     //Pluto
-var geometry10 = new THREE.SphereGeometry(2, 64,40);
+var geometry10 = new THREE.SphereGeometry(4, 64,40);
 geometry10.scale(1,1,1);
 var material10 = new THREE.MeshBasicMaterial({
     map: new THREE.TextureLoader().load('../images/solarSystem/pluto.jpg')
@@ -331,7 +764,86 @@ objectList.push(plutoM);
 const plutoObj = new THREE.Object3D();
 plutoObj.add(plutoM);
 scene.add(plutoObj);
-objectList.push(plutoObj);
+celestObj.push(plutoObj);
+
+//Moons
+var geoMoon = new THREE.SphereGeometry(2, 64,40);//9
+    geoMoon.scale(1,1,1);
+    var moonMat = new THREE.MeshBasicMaterial({
+        map: new THREE.TextureLoader().load('../images/solarSystem/2k_moon.jpg')
+    });
+    var moonMesh = new THREE.Mesh(geoMoon, moonMat);
+    var moonMesh2 = new THREE.Mesh(geoMoon, moonMat);
+    var moonMesh3 = new THREE.Mesh(geoMoon, moonMat);
+    var moonMesh4 = new THREE.Mesh(geoMoon, moonMat);
+    var moonMesh5 = new THREE.Mesh(geoMoon, moonMat);
+
+   
+
+
+    moonMesh.position.x = 0;
+    moonMesh.position.z = -60;
+    moonMesh.position.y = 25;
+
+    moonMesh2.position.x = -30;
+    moonMesh2.position.z = 20;
+    moonMesh2.position.y = 45;
+
+    moonMesh3.position.x = -40;
+    moonMesh3.position.z = 64;
+    moonMesh3.position.y = -40;
+
+    moonMesh4.position.x = 10;
+    moonMesh4.position.z = -38;
+
+    moonMesh5.position.x = 26;
+    moonMesh5.position.z = 68;
+    moonMesh5.position.y = 10;
+
+
+
+
+    
+
+
+
+    const moonObj = new THREE.Object3D();
+    const moonObj2 = new THREE.Object3D();
+    const moonObj3 = new THREE.Object3D();
+    const moonObj4 = new THREE.Object3D();
+    const moonObj5 = new THREE.Object3D();
+
+;
+
+
+
+    moonObj.add(moonMesh);
+    plutoM.add(moonObj);
+
+    moonObj2.add(moonMesh2);
+    plutoM.add(moonObj2);
+
+    moonObj3.add(moonMesh3);
+    plutoM.add(moonObj3);
+
+    moonObj4.add(moonMesh4);
+    plutoM.add(moonObj4);
+
+    moonObj5.add(moonMesh5);
+    plutoM.add(moonObj5);
+
+
+
+
+
+
+    //scene.add(moonObj);
+    mercuryOrb.push(moonObj);
+    celestObj.push(moonObj2);
+    mercuryOrb.push(moonObj3);
+    celestObj.push(moonObj4);
+    mercuryOrb.push(moonObj5);
+
 
 }
 
@@ -355,7 +867,7 @@ camera = new THREE.PerspectiveCamera( 45, canvas.width / canvas.height, 1, 4000 
 
 orbitControls  = new OrbitControls(camera, renderer.domElement);
 camera.position.z = 800;
-camera.position.y = 1.5;
+camera.position.y = 100.5;
 
 
 orbitControls.maxDistance = 700;
@@ -396,11 +908,19 @@ function celestRotation(){
     currentTime = now;
     let fract = deltat / duration;
     let angle = Math.PI * 2 * fract;
-    for(const mesh of objectList)
+    for(const mesh of celestObj)
         if(mesh)
-            mesh.rotation.y += angle / 3;
-     
+            mesh.rotation.y += angle / 20;
+
+    for(const mesh of objectList)
+            if(mesh)
+                mesh.rotation.y += angle / 2;
+
+     for(const mesh of mercuryOrb)
+            if(mesh)
+                mesh.rotation.y += angle / 1;
 }
+/*
 function translate(){
     let now = Date.now();
     let deltat = now - currentTime;
@@ -410,7 +930,10 @@ function translate(){
     for(const mesh of celestObj)
         if(mesh)
             mesh.rotation.y += angle / 5;
-}
+
+    
+    
+}*/
 
 //renderer.setAnimationLoop(animate);
 
@@ -423,7 +946,7 @@ function update()
 
     // Spin the cube for next frame
     celestRotation();
-    translate();
+    //translate();
 
     // Update the camera controller
     orbitControls.update();
