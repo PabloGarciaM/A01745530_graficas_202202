@@ -228,8 +228,8 @@ function planet5(){
         map: new THREE.TextureLoader().load('../images/solarSystem/2k_jupiter.jpg')
     });
     var jupiterM = new THREE.Mesh(geometry7, material7);
-    jupiterM.position.x = -100; //-100
-    jupiterM.position.z = 300; //300
+    jupiterM.position.x = -150; //-100
+    jupiterM.position.z = 350; //300
     objectList.push(jupiterM);
 
 
@@ -520,7 +520,9 @@ function planet7(){
         map: new THREE.TextureLoader().load('../images/solarSystem/2k_uranus.jpg')
     });
     var uranusM = new THREE.Mesh(geometry9, material9);
-    uranusM.position.x = -550;
+    uranusM.position.x = -450;
+    uranusM.position.z = 600;
+
     objectList.push(uranusM);
 
     //scene.add(uranusM);
@@ -641,7 +643,10 @@ function planet8(){
         map: new THREE.TextureLoader().load('../images/solarSystem/2k_neptune.jpg')
     });
     var neptuneM = new THREE.Mesh(geometry10, material10);
-    neptuneM.position.x = 550;
+    neptuneM.position.x = 650;    
+    neptuneM.position.z = -250;
+
+
     objectList.push(neptuneM);
 
     //scene.add(mesh10);
@@ -756,7 +761,7 @@ var material10 = new THREE.MeshBasicMaterial({
 });
 var plutoM = new THREE.Mesh(geometry10, material10);
 plutoM.position.x = -750;
-plutoM.position.z = -650;
+plutoM.position.z = -680;
 objectList.push(plutoM);
 
 //scene.add(mesh10);
