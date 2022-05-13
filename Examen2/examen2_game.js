@@ -1,4 +1,4 @@
-import * as THREE from './libs/three.module.js'
+import * as THREE from '../libs/three.js/three.module.js'
 
 let renderer = null, scene = null, camera = null, root = null;
 
@@ -8,8 +8,10 @@ let directionalLight = null, spotLight = null, ambientLight = null;
 
 let cubes = [];
 let score = 0;
+var scoreText = document.getElementById('scoreText')
 
-const mapUrl = "../../images/checker_large.gif";
+
+const mapUrl = "../images/checker_large.gif";
 let currentTime = Date.now();
 
 function animate()
@@ -17,6 +19,15 @@ function animate()
     const now = Date.now();
     const deltat = now - currentTime;
     currentTime = now;
+    for (let obj of cubes){
+        obj.position.z +=  0.2; 
+        if (obj.position.z >= 40){
+            
+            scene.remove(obj)
+        }
+        obj+=1
+    }
+
 }
 
 function update() 
@@ -82,14 +93,17 @@ function onDocumentPointerMove( event )
 
     if ( intersects.length > 0 ) 
     {
-        if ( intersected != intersects[ 0 ].object ) 
-        {
-            if ( intersected )
-                intersected.material.emissive.set( intersected.currentHex );
+        clicked = intersects[ 0 ].object;
+        if(clicked.name == 'Cube'){
+            if ( intersected != intersects[ 0 ].object ) 
+            {
+                if ( intersected )
+                    intersected.material.emissive.set( intersected.currentHex );
 
-            intersected = intersects[ 0 ].object;
-            intersected.currentHex = intersected.material.emissive.getHex();
-            intersected.material.emissive.set( 0xff0000 );
+                intersected = intersects[ 0 ].object;
+                intersected.currentHex = intersected.material.emissive.getHex();
+                intersected.material.emissive.set( 0xff0000 );
+            }
         }
     } 
     else 
@@ -99,6 +113,25 @@ function onDocumentPointerMove( event )
 
         intersected = null;
     }
+}
+function getRandomArbitrary(min, max) {
+    return Math.random() * (max - min) + min;
+}
+
+function addBoxes()
+{
+    const geometry = new THREE.BoxGeometry( 5, 5, 5 );
+    
+    for ( let i = 0; i < 1; i ++ ) 
+    {
+        const object = new THREE.Mesh( geometry, new THREE.MeshLambertMaterial( { color: Math.random() * 0xffffff } ) );
+        
+        object.name = 'Cube';
+        object.position.set(getRandomArbitrary(-40,40), getRandomArbitrary(0,40) , -80);
+        cubes.push(object);
+        scene.add( object );
+    }
+    console.log(root);
 }
 
 function onDocumentPointerDown(event)
@@ -114,7 +147,24 @@ function onDocumentPointerDown(event)
     if ( intersects.length > 0 ) 
     {
         clicked = intersects[ 0 ].object;
+        // added 
+        if (clicked.name == 'Cube'){
+            clicked.material.emissive.set( 0x00ff00 );
+            scene.remove(clicked);
+       
+            score = score + 1;
+            console.log(score);
+            scoreText.innerText = ('Score: ' + score);
+        }
     } 
+    else 
+    {
+        if ( clicked ) 
+            clicked.material.emissive.set( clicked.currentHex );
+            
+
+        clicked = null;
+    }
 }
 
 function main()
@@ -122,7 +172,7 @@ function main()
     const canvas = document.getElementById("webglcanvas");
 
     createScene(canvas);
-
+    setInterval(function(){ addBoxes() }, 700);
     update();
 }
 
