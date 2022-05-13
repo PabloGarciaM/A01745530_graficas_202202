@@ -1,6 +1,7 @@
-import * as THREE from './libs/three.module.js'
-import { OrbitControls } from './libs/controls/OrbitControls.js';
-import { GLTFLoader } from './libs/loaders/GLTFLoader.js';
+"use strict"; 
+import * as THREE from '../libs/three.js/three.module.js'
+import { OrbitControls } from '../libs/three.js/controls/OrbitControls.js';
+import { GLTFLoader } from '../libs/three.js/loaders/GLTFLoader.js';
 
 let renderer = null, scene = null, camera = null, orbitControls = null;
 
@@ -10,10 +11,20 @@ let idleAction = null;
 let mixer = null;
 let currentTime = Date.now();
 
-const mapUrl = "../../images/checker_large.gif";
+const mapUrl = "../images/checker_large.gif";
 
 const SHADOW_MAP_WIDTH = 2048, SHADOW_MAP_HEIGHT = 2048;
 
+function main()
+{
+    const canvas = document.getElementById("webglcanvas");
+
+    createScene(canvas);
+
+    loadGLTF('../models/Soldier.glb');
+
+    update();
+}
 function onError ( err ){ console.error( err ); };
 
 function onProgress( xhr ) {
@@ -33,10 +44,22 @@ async function loadGLTF(gltfModelUrl)
 
         const result = await gltfLoader.loadAsync(gltfModelUrl, onProgress, onError);
 
+        const object = result.scene || result.scenes[0];
+
         object.traverse(model =>{
             if(model.isMesh)
-                model.castShadow = true;            
+                model.castShadow = true;  
+                model.receiveShadow = true;
+                object.mixer = new THREE.AnimationMixer( scene );
+                object.action = object.mixer.clipAction( result.animations[1], object ).setDuration( 0.65 );
+                mixer = object.mixer;
+                object.action.play();          
         });
+
+        object.scale.set(10,10,10);
+        object.rotation.y = Math.PI;
+        object.position.y = -4
+        scene.add(object);  
              
     }
     catch(err)
@@ -71,6 +94,9 @@ function createScene(canvas)
     renderer = new THREE.WebGLRenderer( { canvas: canvas, antialias: true } );
 
     renderer.setSize(canvas.width, canvas.height);
+
+    // Turn on shadows
+    renderer.shadowMap.enabled = true;
     
     renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
@@ -85,8 +111,19 @@ function createScene(canvas)
     spotLight = new THREE.SpotLight (0xffffff, 1.5);
     spotLight.position.set(0, 40, 50);
 
-    ambientLight = new THREE.AmbientLight ( 0xffffff, 0.3);
+    scene.add(spotLight);
 
+    spotLight.castShadow = true;
+
+    spotLight.shadow.camera.near = 1;
+    spotLight.shadow. camera.far = 200;
+    spotLight.shadow.camera.fov = 45;
+
+    spotLight.shadow.mapSize.width = SHADOW_MAP_WIDTH;
+    spotLight.shadow.mapSize.height = SHADOW_MAP_HEIGHT;
+
+    ambientLight = new THREE.AmbientLight ( 0xffffff, 0.3);
+    scene.add(ambientLight);
     let map = new THREE.TextureLoader().load(mapUrl);
     map.wrapS = map.wrapT = THREE.RepeatWrapping;
     map.repeat.set(8, 8);
@@ -96,21 +133,13 @@ function createScene(canvas)
 
     floor.rotation.x = -Math.PI / 2;
     floor.position.y = -4.02;
+    floor.receiveShadow = true;
 
     scene.add( floor );
 }
 
 
-function main()
-{
-    const canvas = document.getElementById("webglcanvas");
 
-    createScene(canvas);
-
-    loadGLTF('./models/Soldier.glb');
-
-    update();
-}
 
 function resize()
 {
