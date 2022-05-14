@@ -3,11 +3,8 @@
 
 import * as THREE from '../libs/three.js/three.module.js';
 import { OrbitControls } from '../libs/three.js/controls/OrbitControls.js';
-import { OBJLoader } from '../libs/three.js/loaders/OBJLoader.js';
-import { MTLLoader } from '../libs/three.js/loaders/MTLLoader.js';
-//import { GLTGLoader } from '../libs/three.js/loaders/MTLLoader.js';
+import {GUI} from '../libs/datagui/dat.gui.module.js';
 
-import {} from '../libs/three.js/loaders/MTLLoader.js';
 
 let renderer = null, scene = null, camera = null, group = null, objectList = [], orbitControls = null;
 
@@ -15,13 +12,10 @@ let renderer = null, scene = null, camera = null, group = null, objectList = [],
 let duration = 10000; // ms
 let currentTime = Date.now();
 
-let objModelUrl = {obj:'../models/obj/kirby/Kirbysentado.obj', map:'../models/obj/cerberus/Cerberus_A.jpg', normalMap:'../models/obj/cerberus/Cerberus_N.jpg', specularMap: '../models/obj/cerberus/Cerberus_M.jpg'};
-//let objMtlModelUrl = {obj:'../models/obj/kirby/Kirbysentado.obj', mtl:'../models/obj/kirby/Kirbysentado.mtl'};
-
 
 function main(){
     var canvas = document.getElementById('webglcanvas');
-
+    
     createScene(canvas);
     update();
     shoulderCreation();
@@ -30,9 +24,13 @@ function main(){
     foreArmCreation();
     wristCreation();
     handCreation();
+    
+    
+ 
 
 
 }
+
 
 function shoulderCreation(){
     var robotGeo = new THREE.BoxGeometry(10, 15,10, 15);
@@ -47,6 +45,12 @@ function shoulderCreation(){
 
     objectList.push(robotMesh);
     scene.add(robotMesh);
+
+    const gui = new GUI();
+    gui.add(robotMesh.rotation, 'x',-1.5,1.5);
+    gui.add(robotMesh.rotation, 'z',-1.5,1.5);
+
+
 }
 function elbowCreation(){
     var robotGeo = new THREE.BoxGeometry(10, 15,10, 15);
@@ -61,6 +65,8 @@ function elbowCreation(){
 
     objectList.push(robotMesh);
     scene.add(robotMesh);
+    const gui = new GUI();
+    gui.add(robotMesh.rotation, 'x',-2,0);
 }
 function wristCreation(){
     var robotGeo = new THREE.BoxGeometry(15, 10,10, 15);
@@ -76,6 +82,10 @@ function wristCreation(){
 
     objectList.push(robotMesh);
     scene.add(robotMesh);
+
+    const gui = new GUI();
+    gui.add(robotMesh.rotation, 'y',-0.45, 0.45);
+
 }
 function armCreation()
 {
@@ -112,11 +122,8 @@ function foreArmCreation()
 
     objectList.push(mesh2);
     scene.add(mesh2);
-
-    //Light
-    var lightCenter = new THREE.PointLight(0xff0000,5,10);
-    lightCenter.position.set(0,0,0);
-    mesh2.add(lightCenter);
+    const gui = new GUI();
+    gui.add(mesh2.rotation, 'y',-0.5,0.5);
 }  
 function handCreation()
 {
@@ -134,10 +141,11 @@ function handCreation()
     objectList.push(mesh2);
     scene.add(mesh2);
 
-    //Light
-    var lightCenter = new THREE.PointLight(0xff0000,5,10);
-    lightCenter.position.set(0,0,0);
-    mesh2.add(lightCenter);
+    const gui = new GUI();
+    gui.add(mesh2.rotation, 'x',-0.5, 0.5);
+    gui.add(mesh2.rotation, 'z',-0.5,0.5);
+
+    
 }  
 
 
@@ -161,7 +169,7 @@ function createScene(canvas){
     
     orbitControls  = new OrbitControls(camera, renderer.domElement);
     camera.position.z = 500;
-    camera.position.y = 150;
+    camera.position.y = 450;
     camera.position.x =-100;
     
     
@@ -184,6 +192,8 @@ function createScene(canvas){
     });
     var mesh = new THREE.Mesh(geometry, material);
     scene.add(mesh);
+    
+
     
     //objMTL
     //loadObjMtl(objMtlModelUrl, objectList);

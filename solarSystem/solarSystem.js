@@ -4,6 +4,8 @@
 import * as THREE from '../libs/three.js/three.module.js';
 //import * as THREE from 'three';
 import { OrbitControls } from '../libs/three.js/controls/OrbitControls.js';
+import { GLTFLoader } from '../libs/three.js/loaders/GLTFLoader.js';
+
 
 let renderer = null, scene = null, camera = null, group = null, objectList = [], orbitControls = null;
 let celestObj = [],moons=[], mercuryOrb=[];
@@ -894,13 +896,6 @@ var material = new THREE.MeshBasicMaterial({
 });
 var mesh = new THREE.Mesh(geometry, material);
 scene.add(mesh);
-
-
-//Sun
-
-
-
-
 
 
 
