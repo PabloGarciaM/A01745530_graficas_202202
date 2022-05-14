@@ -165,12 +165,12 @@ function createScene(canvas){
     scene = new THREE.Scene();
     
     // Add  a camera so we can view the scene
-    camera = new THREE.PerspectiveCamera( 65, canvas.width / canvas.height, 1, 4000);
+    camera = new THREE.PerspectiveCamera( 90, canvas.width / canvas.height, 1, 4000);
     
     orbitControls  = new OrbitControls(camera, renderer.domElement);
-    camera.position.z = 500;
-    camera.position.y = 450;
-    camera.position.x =-100;
+    camera.position.z = 50;
+    camera.position.y = 25;
+    camera.position.x = -15;
     
     
     orbitControls.maxDistance = 60;
