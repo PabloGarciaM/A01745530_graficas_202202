@@ -47,8 +47,8 @@ function shoulderCreation(){
     scene.add(robotMesh);
 
     const gui = new GUI();
-    gui.add(robotMesh.rotation, 'x',-1.5,1.5);
-    gui.add(robotMesh.rotation, 'z',-1.5,1.5);
+    gui.add(robotMesh.rotation, 'x',-1.5,1.5).name('Shoulder x');
+    gui.add(robotMesh.rotation, 'z',-1.5,1.5).name('Shoulder z');
 
 
 }
@@ -66,7 +66,7 @@ function elbowCreation(){
     objectList.push(robotMesh);
     scene.add(robotMesh);
     const gui = new GUI();
-    gui.add(robotMesh.rotation, 'x',-2,0);
+    gui.add(robotMesh.rotation, 'x',-2,0).name('Elbow x');
 }
 function wristCreation(){
     var robotGeo = new THREE.BoxGeometry(15, 10,10, 15);
@@ -84,7 +84,7 @@ function wristCreation(){
     scene.add(robotMesh);
 
     const gui = new GUI();
-    gui.add(robotMesh.rotation, 'y',-0.45, 0.45);
+    gui.add(robotMesh.rotation, 'x',-0.45, 0.45).name('Wrist x');
 
 }
 function armCreation()
@@ -123,7 +123,7 @@ function foreArmCreation()
     objectList.push(mesh2);
     scene.add(mesh2);
     const gui = new GUI();
-    gui.add(mesh2.rotation, 'y',-0.5,0.5);
+    gui.add(mesh2.rotation, 'y',-0.5,0.5).name('ForeArm y');
 }  
 function handCreation()
 {
@@ -142,8 +142,8 @@ function handCreation()
     scene.add(mesh2);
 
     const gui = new GUI();
-    gui.add(mesh2.rotation, 'x',-0.5, 0.5);
-    gui.add(mesh2.rotation, 'z',-0.5,0.5);
+    gui.add(mesh2.rotation, 'x',-0.5, 0.5).name('Hand x');
+    gui.add(mesh2.rotation, 'z',-0.5,0.5).name('Hand z');
 
     
 }  
